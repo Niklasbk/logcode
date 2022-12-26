@@ -16,7 +16,7 @@ tokenPaths = {
 }
 
 config = {
-	"webhook": %WEBHOOK%
+	"webhook": "%WEBHOOK%"
 }
 
 class main():
